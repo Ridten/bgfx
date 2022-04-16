@@ -18,6 +18,7 @@ namespace bgfx
 	{
 		{  4,  4,  4,  4 }, // Uint8
 		{  4,  4,  4,  4 }, // Uint10
+		{  4,  4,  8,  8 }, // Uint16
 		{  4,  4,  8,  8 }, // Int16
 		{  4,  4,  8,  8 }, // Half
 		{  4,  8, 12, 16 }, // Float
@@ -27,6 +28,7 @@ namespace bgfx
 	{
 		{  1,  2,  4,  4 }, // Uint8
 		{  4,  4,  4,  4 }, // Uint10
+		{  4,  4,  8,  8 }, // Uint16
 		{  2,  4,  8,  8 }, // Int16
 		{  2,  4,  8,  8 }, // Half
 		{  4,  8, 12, 16 }, // Float
@@ -36,6 +38,7 @@ namespace bgfx
 	{
 		{  1,  2,  4,  4 }, // Uint8
 		{  4,  4,  4,  4 }, // Uint10
+		{  4,  4,  8,  8 }, // Uint16
 		{  2,  4,  6,  8 }, // Int16
 		{  2,  4,  6,  8 }, // Half
 		{  4,  8, 12, 16 }, // Float
@@ -94,10 +97,10 @@ namespace bgfx
 
 	VertexLayout& VertexLayout::add(Attrib::Enum _attrib, uint8_t _num, AttribType::Enum _type, bool _normalized, bool _asInt)
 	{
-		const uint16_t encodedNorm = (_normalized&1)<<7;
-		const uint16_t encodedType = (_type&7)<<3;
+		const uint16_t encodedNorm = (_normalized&1)<<8;
+		const uint16_t encodedType = (_type&8)<<3;
 		const uint16_t encodedNum  = (_num-1)&3;
-		const uint16_t encodeAsInt = (_asInt&(!!"\x1\x1\x1\x0\x0"[_type]) )<<8;
+		const uint16_t encodeAsInt = (_asInt&(!!"\x1\x1\x1\x0\x0"[_type]) )<<9;
 		m_attributes[_attrib] = encodedNorm|encodedType|encodedNum|encodeAsInt;
 
 		m_offset[_attrib] = m_stride;
@@ -117,15 +120,16 @@ namespace bgfx
 	{
 		uint16_t val = m_attributes[_attrib];
 		_num        = (val&3)+1;
-		_type       = AttribType::Enum( (val>>3)&7);
-		_normalized = !!(val&(1<<7) );
-		_asInt      = !!(val&(1<<8) );
+		_type       = AttribType::Enum( (val>>3)&8);
+		_normalized = !!(val&(1<<8) );
+		_asInt      = !!(val&(1<<9) );
 	}
 
 	static const bool s_attribTypeIsFloat[] =
 	{
 		false, // Uint8
 		false, // Uint10
+		false, // Uint16
 		false, // Int16
 		true,  // Half
 		true,  // Float
@@ -234,6 +238,7 @@ namespace bgfx
 		// added.
 		{ AttribType::Uint8,  0x0001 },
 		{ AttribType::Uint10, 0x0005 },
+		{ AttribType::Uint16, 0x0006 },
 		{ AttribType::Int16,  0x0002 },
 		{ AttribType::Half,   0x0003 },
 		{ AttribType::Float,  0x0004 },

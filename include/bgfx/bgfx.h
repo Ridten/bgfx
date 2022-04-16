@@ -128,6 +128,7 @@ namespace bgfx
 		{
 			Uint8,  //!< Uint8
 			Uint10, //!< Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`.
+			Uint16, //!< Uint16
 			Int16,  //!< Int16
 			Half,   //!< Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`.
 			Float,  //!< Float
