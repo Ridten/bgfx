@@ -148,9 +148,10 @@ typedef enum bgfx_attrib_type
 {
     BGFX_ATTRIB_TYPE_UINT8,                   /** ( 0) Uint8                          */
     BGFX_ATTRIB_TYPE_UINT10,                  /** ( 1) Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`. */
-    BGFX_ATTRIB_TYPE_INT16,                   /** ( 2) Int16                          */
-    BGFX_ATTRIB_TYPE_HALF,                    /** ( 3) Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`. */
-    BGFX_ATTRIB_TYPE_FLOAT,                   /** ( 4) Float                          */
+    BGFX_ATTRIB_TYPE_UINT16,                  /** ( 2) Uint16                         */
+    BGFX_ATTRIB_TYPE_INT16,                   /** ( 3) Int16                          */
+    BGFX_ATTRIB_TYPE_HALF,                    /** ( 4) Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`. */
+    BGFX_ATTRIB_TYPE_FLOAT,                   /** ( 5) Float                          */
 
     BGFX_ATTRIB_TYPE_COUNT
 
