@@ -936,6 +936,9 @@ pub const AttribType = enum(c_int) {
     /// Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`.
     Uint10,
 
+    /// Uint16
+    Uint16,
+
     /// Int16
     Int16,
 

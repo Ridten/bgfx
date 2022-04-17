@@ -175,6 +175,12 @@ namespace bgfx { namespace webgpu
 			{ wgpu::VertexFormat::Uint16x4, wgpu::VertexFormat::Unorm16x4 },
 			{ wgpu::VertexFormat::Uint16x4, wgpu::VertexFormat::Unorm16x4 },
 		},
+		{ // Uint16
+			{ wgpu::VertexFormat::Uint16x2, wgpu::VertexFormat::Unorm16x2 },
+			{ wgpu::VertexFormat::Uint16x2, wgpu::VertexFormat::Unorm16x2 },
+			{ wgpu::VertexFormat::Uint16x4, wgpu::VertexFormat::Unorm16x4 },
+			{ wgpu::VertexFormat::Uint16x4, wgpu::VertexFormat::Unorm16x4 },
+		},
 		{ // Int16
 			{ wgpu::VertexFormat::Sint16x2, wgpu::VertexFormat::Snorm16x2 },
 			{ wgpu::VertexFormat::Sint16x2, wgpu::VertexFormat::Snorm16x2 },

@@ -521,6 +521,7 @@ enum bgfx_attrib_type_t
 {
 	BGFX_ATTRIB_TYPE_UINT8, /// Uint8
 	BGFX_ATTRIB_TYPE_UINT10, /// Uint10, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_UINT10`.
+	BGFX_ATTRIB_TYPE_UINT16, /// Uint16
 	BGFX_ATTRIB_TYPE_INT16, /// Int16
 	BGFX_ATTRIB_TYPE_HALF, /// Half, availability depends on: `BGFX_CAPS_VERTEX_ATTRIB_HALF`.
 	BGFX_ATTRIB_TYPE_FLOAT, /// Float

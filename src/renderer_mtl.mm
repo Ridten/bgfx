@@ -100,6 +100,14 @@ namespace bgfx { namespace mtl
 			{ MTLVertexFormatUInt1010102Normalized, MTLVertexFormatUInt1010102Normalized },
 		},
 
+		//Uint16
+		{
+			{ MTLVertexFormatUShort2, MTLVertexFormatUShort2Normalized },
+			{ MTLVertexFormatUShort2, MTLVertexFormatUShort2Normalized },
+			{ MTLVertexFormatUShort3, MTLVertexFormatUShort3Normalized },
+			{ MTLVertexFormatUShort4, MTLVertexFormatUShort4Normalized },
+		},
+
 		//Int16
 		{
 			{ MTLVertexFormatShort2, MTLVertexFormatShort2Normalized },

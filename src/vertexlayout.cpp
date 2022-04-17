@@ -97,10 +97,10 @@ namespace bgfx
 
 	VertexLayout& VertexLayout::add(Attrib::Enum _attrib, uint8_t _num, AttribType::Enum _type, bool _normalized, bool _asInt)
 	{
-		const uint16_t encodedNorm = (_normalized&1)<<8;
-		const uint16_t encodedType = (_type&8)<<3;
+		const uint16_t encodedNorm = (_normalized&1)<<7;
+		const uint16_t encodedType = (_type&7)<<3;
 		const uint16_t encodedNum  = (_num-1)&3;
-		const uint16_t encodeAsInt = (_asInt&(!!"\x1\x1\x1\x0\x0"[_type]) )<<9;
+		const uint16_t encodeAsInt = (_asInt&(!!"\x1\x1\x1\x0\x0"[_type]) )<<8;
 		m_attributes[_attrib] = encodedNorm|encodedType|encodedNum|encodeAsInt;
 
 		m_offset[_attrib] = m_stride;
@@ -120,9 +120,9 @@ namespace bgfx
 	{
 		uint16_t val = m_attributes[_attrib];
 		_num        = (val&3)+1;
-		_type       = AttribType::Enum( (val>>3)&8);
-		_normalized = !!(val&(1<<8) );
-		_asInt      = !!(val&(1<<9) );
+		_type       = AttribType::Enum( (val>>3)&7);
+		_normalized = !!(val&(1<<7) );
+		_asInt      = !!(val&(1<<8) );
 	}
 
 	static const bool s_attribTypeIsFloat[] =
@@ -457,6 +457,45 @@ namespace bgfx
 			}
 			break;
 
+		case AttribType::Uint16:
+		{
+			uint16_t* packed = (uint16_t*)data;
+			if (_inputNormalized)
+			{
+				if (asInt)
+				{
+					switch (num)
+					{
+					default: *packed++ = uint16_t(*_input++ * 32767.0f); BX_FALLTHROUGH;
+					case 3:  *packed++ = uint16_t(*_input++ * 32767.0f); BX_FALLTHROUGH;
+					case 2:  *packed++ = uint16_t(*_input++ * 32767.0f); BX_FALLTHROUGH;
+					case 1:  *packed++ = uint16_t(*_input++ * 32767.0f);
+					}
+				}
+				else
+				{
+					switch (num)
+					{
+					default: *packed++ = uint16_t(*_input++ * 65535.0f - 32768.0f); BX_FALLTHROUGH;
+					case 3:  *packed++ = uint16_t(*_input++ * 65535.0f - 32768.0f); BX_FALLTHROUGH;
+					case 2:  *packed++ = uint16_t(*_input++ * 65535.0f - 32768.0f); BX_FALLTHROUGH;
+					case 1:  *packed++ = uint16_t(*_input++ * 65535.0f - 32768.0f);
+					}
+				}
+			}
+			else
+			{
+				switch (num)
+				{
+				default: *packed++ = uint16_t(*_input++); BX_FALLTHROUGH;
+				case 3:  *packed++ = uint16_t(*_input++); BX_FALLTHROUGH;
+				case 2:  *packed++ = uint16_t(*_input++); BX_FALLTHROUGH;
+				case 1:  *packed++ = uint16_t(*_input++);
+				}
+			}
+		}
+		break;
+
 		case AttribType::Int16:
 			{
 				int16_t* packed = (int16_t*)data;
@@ -586,6 +625,32 @@ namespace bgfx
 				}
 			}
 			break;
+
+		case AttribType::Uint16:
+		{
+			uint16_t* packed = (uint16_t*)data;
+			if (asInt)
+			{
+				switch (num)
+				{
+				default: *_output++ = float(*packed++) * 1.0f / 32767.0f; BX_FALLTHROUGH;
+				case 3:  *_output++ = float(*packed++) * 1.0f / 32767.0f; BX_FALLTHROUGH;
+				case 2:  *_output++ = float(*packed++) * 1.0f / 32767.0f; BX_FALLTHROUGH;
+				case 1:  *_output++ = float(*packed++) * 1.0f / 32767.0f;
+				}
+			}
+			else
+			{
+				switch (num)
+				{
+				default: *_output++ = (float(*packed++) + 32768.0f) * 1.0f / 65535.0f; BX_FALLTHROUGH;
+				case 3:  *_output++ = (float(*packed++) + 32768.0f) * 1.0f / 65535.0f; BX_FALLTHROUGH;
+				case 2:  *_output++ = (float(*packed++) + 32768.0f) * 1.0f / 65535.0f; BX_FALLTHROUGH;
+				case 1:  *_output++ = (float(*packed++) + 32768.0f) * 1.0f / 65535.0f;
+				}
+			}
+		}
+		break;
 
 		case AttribType::Int16:
 			{

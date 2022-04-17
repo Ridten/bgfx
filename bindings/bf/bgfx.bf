@@ -1533,6 +1533,11 @@ public static class bgfx
 		Uint10,
 	
 		/// <summary>
+		/// Uint16
+		/// </summary>
+		Uint16,
+	
+		/// <summary>
 		/// Int16
 		/// </summary>
 		Int16,
